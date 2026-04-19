@@ -244,9 +244,13 @@ async function loadCourseStats() {
 
 // Theme Functions
 function initializeTheme() {
-    // Get saved theme preference or default to dark
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        setTheme(savedTheme);
+    } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefersDark ? 'dark' : 'light');
+    }
 }
 
 function toggleTheme() {
