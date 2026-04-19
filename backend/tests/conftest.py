@@ -1,8 +1,7 @@
 import os
 import sys
 import tempfile
-from typing import Any, Dict, List
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock
 
 import pytest
 from fastapi.testclient import TestClient
@@ -171,7 +170,7 @@ def test_config():
     """Create a test configuration with proper settings"""
     return Config(
         ANTHROPIC_API_KEY="test-api-key",
-        ANTHROPIC_MODEL="claude-sonnet-4-20250514",
+        LLM_MODEL="claude-sonnet-4-20250514",
         EMBEDDING_MODEL="all-MiniLM-L6-v2",
         CHUNK_SIZE=800,
         CHUNK_OVERLAP=100,
@@ -186,7 +185,7 @@ def broken_config():
     """Create a configuration with the broken MAX_RESULTS=0 setting"""
     return Config(
         ANTHROPIC_API_KEY="test-api-key",
-        ANTHROPIC_MODEL="claude-sonnet-4-20250514",
+        LLM_MODEL="claude-sonnet-4-20250514",
         EMBEDDING_MODEL="all-MiniLM-L6-v2",
         CHUNK_SIZE=800,
         CHUNK_OVERLAP=100,
@@ -240,7 +239,7 @@ Lesson 1: Introduction
 Lesson Link: https://learn.deeplearning.ai/courses/building-toward-computer-use-with-anthropic/lesson/1/introduction
 Welcome to Building Toward Computer Use with Anthropic. This course covers computer automation.
 
-Lesson 2: Advanced Topics  
+Lesson 2: Advanced Topics
 Lesson Link: https://learn.deeplearning.ai/courses/building-toward-computer-use-with-anthropic/lesson/2/advanced
 In this lesson, we'll explore advanced topics including tool calling and agent workflows.
 """
@@ -287,7 +286,6 @@ def _create_test_app(mock_rag):
     from pydantic import BaseModel
 
     app = FastAPI(title="Course Materials RAG System Test", root_path="")
-
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
     app.add_middleware(
         CORSMiddleware,

@@ -1,14 +1,11 @@
 import os
 import sys
-import tempfile
-from unittest.mock import MagicMock, Mock, patch
-
-import pytest
+from unittest.mock import Mock, patch
 
 # Add parent directory to path to import modules
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from models import Course, CourseChunk, Lesson
+from models import Course, CourseChunk
 from rag_system import RAGSystem
 
 
@@ -45,7 +42,7 @@ class TestRAGSystem:
             patch("rag_system.SessionManager"),
         ):
 
-            rag_system = RAGSystem(broken_config)
+            RAGSystem(broken_config)
 
             # Verify VectorStore was initialized with broken config
             mock_vector_store.assert_called_once_with(

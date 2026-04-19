@@ -1,7 +1,4 @@
 import pytest
-import json
-from fastapi.testclient import TestClient
-from unittest.mock import Mock, patch
 
 
 @pytest.mark.api
@@ -253,11 +250,11 @@ class TestAPIIntegration:
         """Test handling multiple concurrent sessions"""
         # Create first session
         response1 = client.post("/api/query", json={"query": "First session query"})
-        session1 = response1.json()["session_id"]
+        response1.json()["session_id"]
 
         # Create second session
         response2 = client.post("/api/query", json={"query": "Second session query"})
-        session2 = response2.json()["session_id"]
+        response2.json()["session_id"]
 
         # Both should work independently
         assert response1.status_code == 200

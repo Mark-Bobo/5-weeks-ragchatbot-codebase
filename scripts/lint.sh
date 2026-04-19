@@ -1,31 +1,34 @@
 #!/bin/bash
+set -o pipefail
 
 # Code Quality Lint Script - READ-ONLY CHECKS
-# This script verifies code quality without making any changes to files.
-# Perfect for CI/CD pipelines, pre-commit hooks, and code review.
-#
-# What it does:
-# 1. Runs flake8 linting (style violations, complexity)
-# 2. Runs mypy type checking (type safety)
-# 3. Checks import sorting without fixing (shows diff)
-# 4. Checks code formatting without fixing (shows diff)
+# Verifies code quality without making any changes to files.
 #
 # Usage: ./scripts/lint.sh
 # Prerequisites: uv sync --group dev
 # Exit codes: 0 = all checks pass, non-zero = issues found
 
-echo "🔍 Running code quality lint script (read-only checks)..."
+FAILED=0
 
 echo "1. Running flake8 linting..."
-uv run flake8 backend/ main.py
+uv run flake8 backend/ main.py || FAILED=1
 
+echo ""
 echo "2. Running mypy type checking..."
-uv run mypy backend/ main.py
+uv run mypy backend/ main.py || FAILED=1
 
+echo ""
 echo "3. Checking import sorting..."
-uv run isort --check-only --diff backend/ main.py
+uv run isort --check-only --diff backend/ main.py || FAILED=1
 
+echo ""
 echo "4. Checking code formatting..."
-uv run black --check --diff backend/ main.py
+uv run black --check --diff backend/ main.py || FAILED=1
 
-echo "Code quality checks completed!"
+echo ""
+if [ $FAILED -ne 0 ]; then
+    echo "Code quality checks FAILED"
+    exit 1
+fi
+
+echo "All code quality checks passed!"

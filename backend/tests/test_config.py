@@ -1,6 +1,6 @@
 import os
 import sys
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -18,7 +18,7 @@ class TestConfig:
         default_config = Config()
 
         # Test API settings
-        assert default_config.ANTHROPIC_MODEL == "claude-sonnet-4-20250514"
+        assert default_config.LLM_MODEL == "claude-sonnet-4-20250514"
         assert default_config.EMBEDDING_MODEL == "all-MiniLM-L6-v2"
 
         # Test document processing settings
@@ -58,14 +58,14 @@ class TestConfig:
             os.environ,
             {
                 "ANTHROPIC_API_KEY": "test-env-key",
-                "ANTHROPIC_MODEL": "claude-test-model",
+                "LLM_MODEL": "claude-test-model",
             },
         ):
             # Create new config instance to pick up env vars
             test_config = Config()
 
             assert test_config.ANTHROPIC_API_KEY == "test-env-key"
-            assert test_config.ANTHROPIC_MODEL == "claude-test-model"
+            assert test_config.LLM_MODEL == "claude-test-model"
 
     def test_config_missing_api_key(self):
         """Test configuration when API key is missing"""
@@ -104,7 +104,7 @@ class TestConfig:
         test_config = Config()
 
         # Should use Claude model
-        assert "claude" in test_config.ANTHROPIC_MODEL.lower()
+        assert "claude" in test_config.LLM_MODEL.lower()
 
         # Should use sentence transformer for embeddings
         assert test_config.EMBEDDING_MODEL != ""
@@ -139,7 +139,7 @@ class TestConfig:
 
         # String values
         assert isinstance(test_config.ANTHROPIC_API_KEY, str)
-        assert isinstance(test_config.ANTHROPIC_MODEL, str)
+        assert isinstance(test_config.LLM_MODEL, str)
         assert isinstance(test_config.EMBEDDING_MODEL, str)
         assert isinstance(test_config.CHROMA_PATH, str)
 
