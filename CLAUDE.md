@@ -24,7 +24,9 @@ uv add package_name
 
 # Environment variables required
 # Create .env file with:
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
+ANTHROPIC_API_KEY=your_api_key_here
+LLM_BASE_URL=https://your-gateway-url.com/v1
+LLM_MODEL=your-model-name
 ```
 
 ### Python Execution
