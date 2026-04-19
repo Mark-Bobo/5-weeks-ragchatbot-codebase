@@ -67,11 +67,6 @@ multi_line_output = 3
 line_length = 88
 known_first_party = ["backend"]
 
-[tool.flake8]
-max-line-length = 88
-extend-ignore = ["E203", "W503"]
-exclude = [".git", "__pycache__", ".venv", "build", "dist"]
-
 [tool.mypy]
 python_version = "3.13"
 warn_return_any = true
@@ -87,3 +82,9 @@ warn_no_return = true
 warn_unreachable = true
 strict_equality = true
 exclude = ["build", "dist", ".venv"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_untyped_decorators = false
+disallow_incomplete_defs = false
